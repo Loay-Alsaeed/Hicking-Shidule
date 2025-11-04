@@ -1,0 +1,130 @@
+@import "tailwindcss";
+
+/* Dark mode support */
+.dark {
+  color-scheme: dark;
+}
+
+/* RTL support */
+[dir="rtl"] {
+  text-align: right;
+}
+
+[dir="ltr"] {
+  text-align: left;
+}
+
+/* Smooth transitions */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* React Big Calendar Dark Mode Styles */
+.dark .rbc-calendar {
+  background-color: #1f2937;
+  color: #f9fafb;
+}
+
+.dark .rbc-header {
+  background-color: #374151;
+  color: #f9fafb;
+  border-color: #4b5563;
+}
+
+.dark .rbc-month-view {
+  border-color: #4b5563;
+}
+
+.dark .rbc-date-cell {
+  color: #f9fafb;
+}
+
+.dark .rbc-off-range-bg {
+  background-color: #111827;
+}
+
+.dark .rbc-today {
+  background-color: #1e40af;
+}
+
+.dark .rbc-toolbar {
+  background-color: #374151;
+  color: #f9fafb;
+}
+
+.dark .rbc-toolbar button {
+  color: #f9fafb;
+  background-color: transparent;
+  border-color: #4b5563;
+}
+
+.dark .rbc-toolbar button:hover {
+  background-color: #4b5563;
+}
+
+.dark .rbc-toolbar button.rbc-active {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.dark .rbc-event {
+  background-color: #4f46e5;
+  border-color: #6366f1;
+}
+
+.dark .rbc-event:hover {
+  background-color: #4338ca;
+}
+
+.dark .rbc-slot-selection {
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+.dark .rbc-time-view {
+  border-color: #4b5563;
+}
+
+.dark .rbc-time-header {
+  background-color: #374151;
+  border-color: #4b5563;
+}
+
+.dark .rbc-time-content {
+  border-color: #4b5563;
+}
+
+.dark .rbc-timeslot-group {
+  border-color: #4b5563;
+}
+
+.dark .rbc-time-slot {
+  border-color: #4b5563;
+}
+
+.dark .rbc-day-slot {
+  border-color: #4b5563;
+}
+
+.dark .rbc-time-gutter {
+  background-color: #374151;
+  border-color: #4b5563;
+}
+
+.dark .rbc-agenda-view {
+  background-color: #1f2937;
+}
+
+.dark .rbc-agenda-date-cell {
+  background-color: #374151;
+  color: #f9fafb;
+}
+
+.dark .rbc-agenda-time-cell {
+  background-color: #374151;
+  color: #f9fafb;
+}
+
+.dark .rbc-agenda-event-cell {
+  background-color: #1f2937;
+  color: #f9fafb;
+}
