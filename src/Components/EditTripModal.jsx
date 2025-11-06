@@ -204,15 +204,7 @@ const EditTripModal = ({ isOpen, onClose, trip }) => {
                   }`}
                   />
                 
-                <div>
-                  <button
-                    type="button"
-                    onClick={() => setIsPointsEditorOpen(true)}
-                    className="text-nowrap h-full px-2 py-2 bg-indigo-700 rounded-md text-white text-sm w-full"
-                  >
-                    Trip Points
-                  </button>
-                </div>
+               
               
               </div>
                 {errors.location && <p className="text-red-500 text-sm mt-1">{errors.location}</p>}

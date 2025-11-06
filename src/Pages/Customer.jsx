@@ -114,8 +114,8 @@ const Customer = () => {
          {/* Available Trips */}
          {ActiveBar === "Available Trips" && (
           <>
-            <div className="lg:col-span-2 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-              <TripCard/>
+            <div className="lg:col-span-2 ">
+              <TripCard tripsShow={trips}/>
             </div>
             <TripDetails/>
           </>

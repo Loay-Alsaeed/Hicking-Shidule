@@ -16,6 +16,7 @@ export const TripProvider = ({ children }) => {
 
 
   const fetchTrips = async (month, year) => {
+    console.log("Calling Fetch Trips...");
     setLoading(true);
     setError(null);
     
@@ -86,7 +87,13 @@ export const TripProvider = ({ children }) => {
       }
 
       const newTrip = await response.json();
-      setTrips(prevTrips => [...prevTrips, newTrip]);
+      // بعد الإنشاء، أعد جلب الرحلات لضمان نفس الشكل من الخادم
+      try {
+        const now = new Date();
+        const month = now.getMonth() + 1;
+        const year = now.getFullYear();
+        await fetchTrips(month, year);
+      } catch {}
       return newTrip;
     } catch (err) {
       console.error("Error creating trip:", err);
@@ -131,9 +138,13 @@ export const TripProvider = ({ children }) => {
       }
 
       const updatedTrip = await response.json();
-      setTrips(prevTrips => 
-        prevTrips.map(trip => trip.id === tripId ? updatedTrip : trip)
-      );
+      // بعد التعديل، أعد جلب الرحلات لضمان تحديث متسق
+      try {
+        const now = new Date();
+        const month = now.getMonth() + 1;
+        const year = now.getFullYear();
+        await fetchTrips(month, year);
+      } catch {}
       return updatedTrip;
     } catch (err) {
       console.error("Error updating trip:", err);
@@ -166,6 +177,7 @@ export const TripProvider = ({ children }) => {
       }
 
       setTrips(prevTrips => prevTrips.filter(trip => trip.id !== tripId));
+      setSelectedTrip(null);
       return true;
     } catch (err) {
       console.error("Error deleting trip:", err);

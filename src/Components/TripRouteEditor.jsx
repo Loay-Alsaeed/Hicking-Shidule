@@ -132,8 +132,8 @@ export default function TripRouteEditor({ onSave, onClose, trip }) {
   };
 
   return (
-    <div className="flex flex-col md:flex-row gap-4 p-4 w-full h-full">
-      <div className="flex-1 min-h-[400px]">
+    <div className="flex flex-col md:flex-row gap-4 p-4 w-full h-full overflow-scroll">
+      <div className="flex-1 min-h-[400px] mb-12">
         <MapContainer
           center={[31.95, 35.9]}
           zoom={12}

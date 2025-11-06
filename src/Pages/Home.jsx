@@ -3,6 +3,7 @@ import Admin from "./Admin";
 import Employee from "./Employee";
 import Customer from "./Customer";
 import Login from "./Login";
+import { AdminProvider } from "../Context/AdminContext";
 
 
 
@@ -11,13 +12,9 @@ const Home = () => {
     const { user, loading } = useAuth();
     if (loading) return <p>Loading, Please Wait ...</p>;
 
-    if (user) {
-        // console.log(user.user.roles);
-    }
-
     switch(user.user.roles) {
         case "Admin":
-          return <Admin/>
+          return <AdminProvider> <Admin/> </AdminProvider>
           break;
         case "Employee":
             return <Employee/>

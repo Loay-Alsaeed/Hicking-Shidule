@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route} from "react-router-dom";
 import ProtectedRoute from "./Context/ProtectedRoute";
 import { AuthProvider } from "./Context/AuthContext";
 import { TripProvider } from "./Context/TripContext";
-import { AddTripProvider } from "./Context/AddTripContext";
+// import { AddTripProvider } from "./Context/AddTripContext";
 import { TripPointsProvider } from "./Context/TripPointsContext";
 import Home from "./Pages/Home";
 import Login from "./Pages/Login";
@@ -27,7 +27,6 @@ function App() {
       <TripProvider>
         <TripPointsProvider>
 
-        <AddTripProvider>
           <BrowserRouter>
               <Header />
               <ShowError />
@@ -38,10 +37,8 @@ function App() {
                 </ProtectedRoute>
               } />
               <Route path="/login" element={<Login />} />
-              <Route path="/map" element={<Map/>}/>
               </Routes>
           </BrowserRouter>
-          </AddTripProvider>
         </TripPointsProvider>
       </TripProvider>
     </AuthProvider>

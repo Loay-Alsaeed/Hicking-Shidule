@@ -4,17 +4,21 @@ import { useTranslation } from "react-i18next";
 import moment from "moment";
 import { useError } from '../Context/ErrorContext';
 import TripRouteEditor from "../Components/TripRouteEditor";
+import EditTripModal from "./EditTripModal";
 import { FiMapPin } from "react-icons/fi";
+import { useAuth } from "../Context/AuthContext";
 
 
 
 
 const TripDetails = () => {
-    const { selectedTrip, setSelectedTrip, loading, registeredTrips, registerCustomerInTrip, unregisterCustomerFromTrip, fetchRegisteredTrips } = useTrips();
+    const { selectedTrip, setSelectedTrip, loading, registeredTrips, registerCustomerInTrip, unregisterCustomerFromTrip, fetchRegisteredTrips, deleteTrip } = useTrips();
     const { t, i18n } = useTranslation();
     const [currentDate, setCurrentDate] = useState(new Date());
     const { notifyError } = useError();
     const [isPointsEditorOpen, setIsPointsEditorOpen] = useState(false);
+    const [isEditOpen, setIsEditOpen] = useState(false);
+    const {user} = useAuth();
 
 
     const calculateDuration = (startDate, endDate) => {
@@ -173,13 +177,23 @@ const TripDetails = () => {
                     {(() => {
                       const isRegistered = Array.isArray(registeredTrips) && registeredTrips.some(rt => rt.id === selectedTrip.id);
                       const isActive = selectedTrip.state === "Active";
+                      const isAdmin = user.user.roles === "Admin";
                       return (
+                        !isAdmin? 
                         <button
                           disabled={!isActive}
                           onClick={(e) => (isRegistered ? handleUnregisterCustomer(selectedTrip.id, e) : handleRegisterCustomer(selectedTrip.id))}
                           className=" w-full bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-600 text-white py-2 px-4 rounded-md transition-colors disabled:cursor-not-allowed disabled:bg-indigo-300 disabled:text-black">
                           {isActive ? (isRegistered ? t("trip.cancelBooking") || "Cancel" : t("trip.bookNow") || "Book Now") : "Not Active"}
-                        </button>
+                        </button>:
+                        <div className="grid grid-cols-2 gap-4">
+                          <button
+                          onClick={() => { setIsEditOpen(true) }}
+                           className="col-span-1 bg-blue-500 active:bg-blue-700 p-2 rounded-sm text-white cursor-pointer">Edit</button>
+                          <button
+                          onClick={() => {deleteTrip(selectedTrip.id)}}
+                           className="col-span-1 bg-red-500 active:bg-red-700 p-2 rounded-sm text-white cursor-pointer">Delete</button>
+                        </div>
                       );
                     })()}
 
@@ -264,6 +278,13 @@ const TripDetails = () => {
                   </div>
                 </div>
               </div>
+            )}
+          {isEditOpen && (
+              <EditTripModal 
+                isOpen={isEditOpen} 
+                onClose={() => setIsEditOpen(false)} 
+                trip={selectedTrip}
+              />
             )}
         </>
     );

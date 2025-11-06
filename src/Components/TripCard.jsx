@@ -1,6 +1,9 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useTrips } from "../Context/TripContext";
 import { useTranslation } from "react-i18next";
+import { IoIosAddCircleOutline } from "react-icons/io";
+import AddTripModal from "./AddTripModal";
+
 
 const getDifficultyBadgeClass = (value) => {
   if (value < 3) return "bg-green-100 text-green-700 border-green-200";
@@ -8,11 +11,16 @@ const getDifficultyBadgeClass = (value) => {
   return "bg-red-100 text-red-700 border-red-200";
 };
 
-const TripCard = () => {
+const TripCard = ({tripsShow}) => {
   const { t } = useTranslation();
-  const { trips, loading, setSelectedTrip, registeredTrips, registerCustomerInTrip, unregisterCustomerFromTrip } = useTrips();
+  // const [trips, setTrips] = useState(tripsShow);
+  const { trips, fetchTrips, loading, setSelectedTrip, registeredTrips, registerCustomerInTrip, unregisterCustomerFromTrip } = useTrips();
   const [startFilter, setStartFilter] = useState("");
   const [endFilter, setEndFilter] = useState("");
+  const [isAddTripModalOpen, setIsAddTripModalOpen] = useState(false);
+
+
+
 
   const sortedTrips = useMemo(() => {
     return [...(trips || [])].sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
@@ -40,10 +48,16 @@ const TripCard = () => {
 
   return (
     <>
-    <div className="flex justify-between">
-        <h3 className="font-bold text-xl">Available Trips</h3>
+    <div className="bg-white p-6 rounded-xl shadow-lg">
 
-        <div className="mb-4 flex flex-col sm:flex-row gap-3 items-start sm:items-end">
+      <div className="flex justify-between items-center align-middle pb-6">
+        <div className="flex gap-2 align-middle items-center">
+          <h3 className="font-bold text-xl">Available Trips ({trips.length})</h3>
+          <IoIosAddCircleOutline size={24} className="hover:text-blue-500 cursor-pointer"
+          onClick={() => {setIsAddTripModalOpen(true);}}/>
+        </div>
+
+        <div className=" flex flex-col sm:flex-row gap-3 items-start sm:items-end">
             <div className="flex flex-col">
             {/* <label className="text-xs text-gray-500 dark:text-gray-400 mb-1">{t("trip.startDate") || "Start date"}</label> */}
             <input
@@ -179,6 +193,13 @@ const TripCard = () => {
       
 
       </div>
+    </div>
+
+    <AddTripModal 
+    isOpen={isAddTripModalOpen} 
+    onClose={() => setIsAddTripModalOpen(false)} 
+    />
+
     </>
   );
 };
