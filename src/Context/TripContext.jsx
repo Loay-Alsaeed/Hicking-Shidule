@@ -11,9 +11,17 @@ export const TripProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [selectedTrip, setSelectedTrip] = useState(null);
   const [employeeTrips, setEmployeeTrips] = useState([]);
+  const [membersTrip, setMembersTrip] = useState([]);
   const { user } = useAuth();
   const { notifyError } = useError();
 
+
+
+  useEffect(() => {
+    if (selectedTrip && selectedTrip.id) {
+      getMembersTrip(selectedTrip.id);
+    }
+  }, [selectedTrip]);
 
   const fetchTrips = async (month, year) => {
     console.log("Calling Fetch Trips...");
@@ -188,6 +196,39 @@ export const TripProvider = ({ children }) => {
     }
   };
 
+  const getMembersTrip = async (tripId) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const baseUrl = import.meta.env.VITE_API_URL;
+      const response = await fetch(`${baseUrl}/api/employee/tripusers/${tripId}`, {
+        method: "GET",
+        headers: {
+          // "Authorization": `Bearer ${user.user.token}`,
+          // "Content-Type": "application/json",
+          // Accept: "application/json",
+        },
+      });
+      if (!response.ok) {
+        const result = await response.json();
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      // console.log('Response:', result);
+      const data = await response.json();
+      setMembersTrip(data);
+      console.log('Members of trip:', data);
+      // return data;
+      
+    }
+    catch (err) {
+      console.error("Error getting members of trip:", err);
+      throw err;
+    }
+    finally {
+      setLoading(false);
+    }
+  }
+
   const getCalendarEvents = () => {
     return trips.map(trip => ({
       id: trip.id,
@@ -220,6 +261,35 @@ export const TripProvider = ({ children }) => {
       resource: trip,
       allDay: false,
     }));
+  }
+
+  const removeMemberFromTrip = async (tripId, userId) => {
+    // const userId = user.user.id;
+    console.log('Unregistering from Trip Id =', tripId);
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const baseUrl = import.meta.env.VITE_API_URL;
+      const response = await fetch(`${baseUrl}/api/tripregisteratin/remove/userid:${userId}/tripid:${tripId}`, {
+        method: "GET",
+      });
+
+      if (!response.ok) {
+        const result = await response.json();
+        // notifyError(result.message);
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      setMembersTrip(membersTrip.filter(m => m.userId !== userId))
+    
+      return true;
+    } catch (err) {
+      console.error("Error unregistering customer from trip:", err);
+      // setError(err.message);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
   }
 
   const getTripsForDate = (date) => {
@@ -361,7 +431,9 @@ export const TripProvider = ({ children }) => {
         error,
         selectedTrip,
         employeeTrips,
+        membersTrip,
         setEmployeeTrips,
+        removeMemberFromTrip,
         getEmployeeTrips,
         setSelectedTrip,
         fetchTrips,

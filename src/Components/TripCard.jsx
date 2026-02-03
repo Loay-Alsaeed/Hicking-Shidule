@@ -167,7 +167,7 @@ const TripCard = ({tripsShow}) => {
                     <button
                       type="button"
                       disabled={!isActive}
-                      className="px-3 py-1.5 text-sm rounded-md bg-indigo-600 hover:bg-indigo-700 text-white disabled:cursor-not-allowed disabled:bg-indigo-300 disabled:text-black"
+                      className={`px-3 py-1.5 text-sm rounded-md bg-indigo-600 hover:bg-indigo-700 text-white disabled:cursor-not-allowed disabled:bg-indigo-300 disabled:text-black ${isRegistered? 'bg-red-500  hover:bg-orange-700': ''}`}
                       onClick={async (e) => {
                         e.stopPropagation();
                         if (isRegistered) {

@@ -183,7 +183,7 @@ const TripDetails = () => {
                         <button
                           disabled={!isActive}
                           onClick={(e) => (isRegistered ? handleUnregisterCustomer(selectedTrip.id, e) : handleRegisterCustomer(selectedTrip.id))}
-                          className=" w-full bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-600 text-white py-2 px-4 rounded-md transition-colors disabled:cursor-not-allowed disabled:bg-indigo-300 disabled:text-black">
+                          className={` w-full bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-600 text-white py-2 px-4 rounded-md transition-colors disabled:cursor-not-allowed disabled:bg-indigo-300 disabled:text-black ${isRegistered? "bg-red-500 hover:bg-red-700":""}`}>
                           {isActive ? (isRegistered ? t("trip.cancelBooking") || "Cancel" : t("trip.bookNow") || "Book Now") : "Not Active"}
                         </button>:
                         <div className="grid grid-cols-2 gap-4">

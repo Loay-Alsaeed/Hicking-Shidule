@@ -13,18 +13,18 @@ const Home = () => {
     if (loading) return <p>Loading, Please Wait ...</p>;
 
     switch(user.user.roles) {
-        case "Admin":
-          return <AdminProvider> <Admin/> </AdminProvider>
-          break;
-        case "Employee":
-            return <Employee/>
-          break;
-        case "Customer":
-            return <Customer/>
-          break;
-        default:
-            return <Login/>
-      }
+      case "Admin":
+        return <AdminProvider> <Admin/> </AdminProvider>
+        break;
+      case "Employee":
+          return <Employee/>
+        break;
+      case "Customer":
+          return <Customer/>
+        break;
+      default:
+          return <Login/>
+    }
 
 
     

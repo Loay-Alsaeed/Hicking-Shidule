@@ -11,6 +11,9 @@ import "moment/locale/ar";
 import "moment/locale/en-gb";
 import CalendarCombonents from "../Components/CalendarComponents";
 import TripRouteEditor from "../Components/TripRouteEditor";
+import TripMembersModel from "../Components/TripMembersModel";
+import ExcelExportButton from "../Components/ExcelExportButton";
+import DownloadExcelWithProgress from "../Components/DownloadExcelWithProgress";
 
 
 
@@ -38,6 +41,7 @@ const Employee = () => {
     const [isEditTripModalOpen, setIsEditTripModalOpen] = useState(false);
     const [tripToEdit, setTripToEdit] = useState(null);
     const [isPointsEditorOpen, setIsPointsEditorOpen] = useState(false);
+    const [isMembersTripModelOpen, setIsMembersTripModelOpen] = useState(false);
 
     const localizer = momentLocalizer(moment);
 
@@ -121,7 +125,12 @@ const Employee = () => {
         <>
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6">
             <div className="max-w-7xl mx-auto">
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">Employee Page</h1>
+                <div className="flex justify-between">
+                  <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">Employee Page</h1>
+                  {/* <ExcelExportButton/> */}
+                  <DownloadExcelWithProgress/>
+                </div>
+                
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                   
                     {/* التقويم */}
@@ -197,7 +206,8 @@ const Employee = () => {
                                   </p>
                                 </div>
 
-                                <div className="flex items-center gap-2">
+                                <div className="flex items-center gap-2"
+                                onClick={() => {setIsMembersTripModelOpen(true)}}>
                                   <span className="font-medium text-gray-700 dark:text-gray-300">
                                     {t("trip.availableSeats")}:
                                   </span>
@@ -333,24 +343,12 @@ const Employee = () => {
                     </div>
                 </div>
             </div>
-            {isPointsEditorOpen && (
-              <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-                <div className="bg-white rounded-xl shadow-xl w-full max-w-5xl max-h-[90vh] overflow-hidden">
-                  <div className="flex items-center justify-between p-3 border-b">
-                    <h3 className="font-semibold">إضافة نقاط الرحلة</h3>
-                    <button onClick={() => setIsPointsEditorOpen(false)} className="px-2">✕</button>
-                  </div>
-                  <div className="h-[70vh]">
-                    <TripRouteEditor
-                      trip = {selectedTrip}
-                      onSave={() => { setIsPointsEditorOpen(false); }}
-                      onClose={() => setIsPointsEditorOpen(false)}
-                    />
-                  </div>
-                </div>
-              </div>
-            )}
+
         </div>
+    <TripMembersModel 
+      isOpen={isMembersTripModelOpen}
+      isClose={() => {setIsMembersTripModelOpen(false)}}/>
+    
 
     <AddTripModal 
       isOpen={isAddTripModalOpen} 
